@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Netsiq Soluções em Tecnologia da Informação</title>
+  <style>
+    :root {
+      --azul-escuro: #00385c;
+      --azul: #005f8f;
+      --verde: #009f5b;
+      --verde-claro: #11c776;
+      --fundo: #eef9f8;
+      --texto: #063354;
+      --texto-suave: #315b72;
+      --borda: rgba(0, 56, 92, 0.14);
+      --sombra: 0 16px 42px rgba(0, 56, 92, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--texto);
+      background: linear-gradient(110deg, #ffffff 0%, #f7fcff 34%, #edf9f8 62%, #dff4ec 100%);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      right: -20px;
+      top: 430px;
+      width: 430px;
+      height: 260px;
+      z-index: -2;
+      background-image: radial-gradient(circle, rgba(0, 159, 91, 0.34) 2px, transparent 2.5px);
+      background-size: 18px 18px;
+      clip-path: ellipse(58% 45% at 72% 58%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      left: -8%;
+      right: -8%;
+      top: 330px;
+      height: 230px;
+      z-index: -1;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 260' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.82)' stroke-width='1.2'%3E%3Cpath d='M0 155 C260 40 450 40 700 150 S1120 260 1440 90'/%3E%3Cpath d='M0 165 C260 50 450 50 700 160 S1120 270 1440 100'/%3E%3Cpath d='M0 175 C260 60 450 60 700 170 S1120 280 1440 110'/%3E%3Cpath d='M0 185 C260 70 450 70 700 180 S1120 290 1440 120'/%3E%3Cpath d='M0 195 C260 80 450 80 700 190 S1120 300 1440 130'/%3E%3Cpath d='M0 205 C260 90 450 90 700 200 S1120 310 1440 140'/%3E%3Cpath d='M0 215 C260 100 450 100 700 210 S1120 320 1440 150'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1060px, 90%);
+      margin: 0 auto;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--borda);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .navbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--azul-escuro);
+      font-weight: 900;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .brand-name {
+      font-size: 2.05rem;
+      line-height: 0.95;
+      letter-spacing: 2px;
+      font-weight: 900;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 6px;
+      color: var(--verde);
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--azul-escuro);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    nav a:not(.btn) {
+      position: relative;
+      padding: 10px 0;
+    }
+
+    nav a:not(.btn)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--verde);
+      transform: scaleX(0);
+      transition: 0.2s;
+    }
+
+    nav a:not(.btn):hover::after,
+    nav a:not(.btn).active::after {
+      transform: scaleX(1);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 13px 22px;
+      transition: 0.2s ease;
+      white-space: nowrap;
+      font-size: 0.92rem;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--verde), var(--verde-claro));
+      box-shadow: 0 14px 28px rgba(0, 159, 91, 0.25);
+    }
+
+    .btn-primary:hover,
+    .btn-outline:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      color: var(--azul-escuro);
+      background: rgba(255,255,255,0.65);
+      border: 1.8px solid var(--azul-escuro);
+    }
+
+    .hero {
+      position: relative;
+      padding: 48px 0 28px;
+      min-height: 610px;
+      background:
+        radial-gradient(circle at 80% 36%, rgba(17, 199, 118, 0.16), transparent 26%),
+        linear-gradient(110deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.66) 42%, rgba(220,246,235,0.58) 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: 70px;
+      width: 680px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(0,159,91,0.16), transparent 62%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: -6%;
+      right: -6%;
+      top: 260px;
+      height: 230px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 260' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.90)' stroke-width='1.1'%3E%3Cpath d='M0 155 C260 40 450 40 700 150 S1120 260 1440 90'/%3E%3Cpath d='M0 165 C260 50 450 50 700 160 S1120 270 1440 100'/%3E%3Cpath d='M0 175 C260 60 450 60 700 170 S1120 280 1440 110'/%3E%3Cpath d='M0 185 C260 70 450 70 700 180 S1120 290 1440 120'/%3E%3Cpath d='M0 195 C260 80 450 80 700 190 S1120 300 1440 130'/%3E%3Cpath d='M0 205 C260 90 450 90 700 200 S1120 310 1440 140'/%3E%3Cpath d='M0 215 C260 100 450 100 700 210 S1120 320 1440 150'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+      opacity: 0.95;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      max-width: 500px;
+      font-size: clamp(2.8rem, 4.2vw, 4.7rem);
+      line-height: 1.04;
+      margin-bottom: 20px;
+      color: var(--azul-escuro);
+      letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+      color: var(--verde);
+    }
+
+    .hero p {
+      max-width: 510px;
+      font-size: 0.95rem;
+      color: var(--texto);
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .hero-badges {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      max-width: 610px;
+    }
+
+    .badge {
+      min-height: 68px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--azul-escuro);
+      font-weight: 900;
+      font-size: 0.76rem;
+      line-height: 1.25;
+      border-right: 1px solid rgba(0, 56, 92, 0.25);
+      background: transparent;
+    }
+
+    .badge:last-child {
+      border-right: 0;
+    }
+
+    .badge::before {
+      display: block;
+      margin-right: 7px;
+      font-size: 1.45rem;
+      color: var(--verde);
+    }
+
+    .badge:nth-child(1)::before { content: "🎧"; }
+    .badge:nth-child(2)::before { content: "📶"; }
+    .badge:nth-child(3)::before { content: "⚙️"; }
+    .badge:nth-child(4)::before { content: "🗄️"; }
+    .badge:nth-child(5)::before { content: "📊"; }
+
+    .hero-card {
+      min-height: 390px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      box-shadow: none;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      text-align: center;
+      overflow: visible;
+    }
+
+    .hero-card img {
+      width: min(360px, 100%);
+      height: auto;
+      display: block;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      border-radius: 0;
+      margin: 0 auto;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .hero-card h3,
+    .hero-card p {
+      display: none;
+    }
+
+    .info-strip {
+      position: relative;
+      z-index: 3;
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(0, 56, 92, 0.12);
+      box-shadow: var(--sombra);
+      border-radius: 12px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-right: 1px solid rgba(0, 56, 92, 0.13);
+      color: var(--azul-escuro);
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .info-item:last-child {
+      border-right: 0;
+    }
+
+    .info-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--azul-escuro);
+      border-radius: 50%;
+      font-size: 1.15rem;
+      color: var(--verde);
+      flex: 0 0 auto;
+    }
+
+    .info-item strong {
+      display: block;
+      color: var(--azul-escuro);
+      margin-bottom: 3px;
+    }
+
+    .info-item span {
+      color: var(--verde);
+      font-weight: 900;
+    }
+
+    section {
+      padding: 48px 0;
+    }
+
+    .section-title {
+      margin-bottom: 34px;
+    }
+
+    .section-title span {
+      color: var(--verde);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2.4px;
+      font-size: 0.88rem;
+    }
+
+    .section-title h2 {
+      color: var(--azul-escuro);
+      font-size: clamp(1.8rem, 2.4vw, 2.8rem);
+      line-height: 1.16;
+      margin-top: 10px;
+      max-width: 560px;
+    }
+
+    .services-area {
+      display: grid;
+      grid-template-columns: 0.8fr 1.7fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .service-card {
+      background: rgba(255,255,255,0.86);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 12px 32px rgba(0, 56, 92, 0.10);
+      border: 1px solid rgba(0, 56, 92, 0.10);
+      transition: 0.2s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sombra);
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--verde);
+      background: rgba(0, 159, 91, 0.10);
+      font-size: 1.85rem;
+      margin-bottom: 18px;
+    }
+
+    .service-card h3 {
+      color: var(--azul-escuro);
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .service-card p {
+      color: var(--texto-suave);
+      font-size: 0.95rem;
+    }
+
+    .about {
+      background: transparent;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .about-box {
+      background: linear-gradient(135deg, var(--azul-escuro), var(--azul));
+      color: white;
+      border-radius: 26px;
+      padding: 34px;
+      box-shadow: var(--sombra);
+    }
+
+    .about-box h2 {
+      font-size: 2rem;
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .about-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(0, 56, 92, 0.10);
+      border-radius: 18px;
+      padding: 17px;
+      font-weight: 800;
+      color: var(--azul-escuro);
+    }
+
+    .check {
+      color: var(--verde);
+      font-weight: 900;
+    }
+
+    .contact {
+      background: transparent;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .contact-card,
+    .form-card {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(0, 56, 92, 0.10);
+      border-radius: 26px;
+      padding: 32px;
+      box-shadow: var(--sombra);
+    }
+
+    .contact-card h3,
+    .form-card h3 {
+      color: var(--azul-escuro);
+      font-size: 1.6rem;
+      margin-bottom: 18px;
+    }
+
+    .contact-info {
+      display: grid;
+      gap: 16px;
+      margin: 22px 0;
+    }
+
+    .contact-info div {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(0, 159, 91, 0.08);
+      color: var(--azul-escuro);
+      font-weight: 800;
+    }
+
+    .contact-info strong {
+      display: block;
+      color: var(--verde);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
+
+    form {
+      display: grid;
+      gap: 13px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid rgba(0, 56, 92, 0.16);
+      border-radius: 15px;
+      padding: 14px 15px;
+      font: inherit;
+      outline: none;
+      background: rgba(255,255,255,0.85);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--verde);
+      box-shadow: 0 0 0 4px rgba(0, 159, 91, 0.12);
+    }
+
+    footer {
+      background: var(--azul-escuro);
+      color: white;
+      padding: 26px 0;
+      text-align: center;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 60;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: var(--verde);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      box-shadow: 0 12px 30px rgba(0, 159, 91, 0.35);
+      transition: 0.2s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.06);
+    }
+
+    @media (max-width: 1050px) {
+      .hero-content,
+      .services-area,
+      .about-content,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        min-height: auto;
+      }
+
+      .info-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .navbar {
+        min-height: auto;
+        padding: 16px 0;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .brand-logo {
+        width: 76px;
+      }
+
+      .brand-name {
+        font-size: 1.55rem;
+      }
+
+      .brand small {
+        font-size: 0.66rem;
+        letter-spacing: 1.5px;
+      }
+
+      .hero {
+        padding-top: 38px;
+      }
+
+      .hero-badges,
+      .info-strip,
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .badge,
+      .info-item {
+        border-right: 0;
+        border-bottom: 1px solid rgba(0, 56, 92, 0.13);
+      }
+
+      .badge:last-child,
+      .info-item:last-child {
+        border-bottom: 0;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a href="#inicio" class="brand">
+        <img class="brand-logo" src="logo-netsiq.png" alt="Netsiq Logo" />
+        <div>
+          <div class="brand-name">NETSIQ</div>
+          <small>Soluções em Tecnologia da Informação</small>
+        </div>
+      </a>
+
+      <nav>
+        <a class="active" href="#inicio">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+        <a class="btn btn-primary" href="https://wa.me/5543999166905" target="_blank">WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-content">
+        <div>
+          <h1>Soluções de <span>Tecnologia</span> para impulsionar seu <span>negócio.</span></h1>
+          <p>
+            Atendimento técnico em Siqueira Campos e região para manutenção em computadores e notebooks,
+            redes com fio e sem fio, planilhas profissionais, banco de dados, automações e soluções digitais para empresas.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://wa.me/5543999166905" target="_blank">☘ Solicitar atendimento</a>
+            <a class="btn btn-outline" href="#servicos">Ver serviços →</a>
+          </div>
+
+          <div class="hero-badges">
+            <span class="badge">Suporte Especializado</span>
+            <span class="badge">Redes com e sem fio</span>
+            <span class="badge">Automação e Produtividade</span>
+            <span class="badge">Banco de Dados</span>
+            <span class="badge">Planilhas Profissionais</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <img src="logo-netsiq.png" alt="Logo Netsiq" />
+          <h3>Netsiq Soluções em Tecnologia</h3>
+          <p>Identidade visual padronizada com as cores oficiais da marca.</p>
+        </div>
+      </div>
+
+      <div class="container info-strip">
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div><strong>Atendimento em</strong>Siqueira Campos e região</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <div><strong>Telefone / WhatsApp</strong><span>43 99916-6905<br>43 98858-5447</span></div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🏢</div>
+          <div><strong>Endereço</strong>Rua Rio Grande do Sul, 1208<br>Centro - Siqueira Campos/PR</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">⏱</div>
+          <div><strong>Horário de Atendimento</strong>Segunda à Sexta<br>08h às 18h</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicos">
+      <div class="container">
+        <div class="services-area">
+          <div class="section-title">
+            <span>Nossos serviços</span>
+            <h2>Soluções completas para você e sua empresa.</h2>
+          </div>
+
+          <div class="services-grid">
+          <article class="service-card">
+            <div class="icon">💻</div>
+            <h3>Manutenção de computadores</h3>
+            <p>Formatação, limpeza, instalação de sistemas, troca de peças, melhoria de desempenho e correção de falhas.</p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">🛠️</div>
+            <h3>Manutenção em notebooks</h3>
+            <p>Diagnóstico técnico, upgrades, backup, recuperação de desempenho e configuração completa do equipamento.</p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">📡</div>
+            <h3>Redes com fio e sem fio</h3>
+            <p>Instalação, organização, configuração de roteadores, Wi-Fi, cabeamento e melhoria de sinal.</p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">📊</div>
+            <h3>Criação de planilhas</h3>
+            <p>Planilhas personalizadas para controle financeiro, estoque, ordens de serviço, relatórios e indicadores.</p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">🗄️</div>
+            <h3>Banco de dados</h3>
+            <p>Criação, organização, consulta e manutenção de bases de dados para controle e gestão de informações.</p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">⚙️</div>
+            <h3>Automação de processos</h3>
+            <p>Automatização de tarefas repetitivas, sistemas simples, relatórios e ferramentas para ganhar produtividade.</p>
+          </article>
+                  </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="sobre">
+      <div class="container about-content">
+        <div class="about-box">
+          <h2>Soluções práticas para deixar sua tecnologia funcionando melhor.</h2>
+          <p>
+            A Netsiq Soluções em Tecnologia da Informação atua com atendimento técnico, implantação de redes,
+            organização de dados, criação de ferramentas e automações para facilitar a rotina de empresas e clientes.
+          </p>
+        </div>
+
+        <div class="about-list">
+          <div class="about-item"><span class="check">✓</span> Atendimento em Siqueira Campos - PR</div>
+          <div class="about-item"><span class="check">✓</span> Soluções para residências, comércios e empresas</div>
+          <div class="about-item"><span class="check">✓</span> Suporte em hardware, software, redes e sistemas</div>
+          <div class="about-item"><span class="check">✓</span> Desenvolvimento de planilhas, bancos de dados e automações</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contato">
+      <div class="container">
+        <div class="section-title">
+          <span>Fale conosco</span>
+          <h2>Solicite um orçamento ou atendimento técnico</h2>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>Informações de contato</h3>
+            <p>Entre em contato pelos telefones abaixo ou visite nosso endereço.</p>
+
+            <div class="contact-info">
+              <div>
+                <strong>WhatsApp / Contato</strong>
+                43 99916-6905<br />43 98858-5447
+              </div>
+              <div>
+                <strong>Endereço</strong>
+                Rua Rio Grande do Sul, 1208 - Centro<br />Siqueira Campos - PR
+              </div>
+              <div>
+                <strong>Empresa</strong>
+                Netsiq Soluções em Tecnologia da Informação
+              </div>
+            </div>
+
+            <a class="btn btn-primary" href="https://wa.me/5543999166905" target="_blank">Chamar no WhatsApp</a>
+          </div>
+
+          <div class="form-card">
+            <h3>Mensagem rápida</h3>
+            <form onsubmit="enviarWhatsApp(event)">
+              <input id="nome" type="text" placeholder="Seu nome" required />
+              <input id="telefone" type="tel" placeholder="Seu telefone" required />
+              <select id="servico" required>
+                <option value="">Selecione o serviço</option>
+                <option>Manutenção em computador</option>
+                <option>Manutenção em notebook</option>
+                <option>Rede com fio ou sem fio</option>
+                <option>Criação de planilhas</option>
+                <option>Banco de dados</option>
+                <option>Automação</option>
+                <option>Outro serviço</option>
+              </select>
+              <textarea id="mensagem" placeholder="Descreva o que você precisa"></textarea>
+              <button class="btn btn-primary" type="submit">Enviar pelo WhatsApp</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Netsiq Soluções em Tecnologia da Informação - Siqueira Campos, PR.</p>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/5543999166905" target="_blank" aria-label="WhatsApp">☘</a>
+
+  <script>
+    function enviarWhatsApp(event) {
+      event.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const telefone = document.getElementById("telefone").value.trim();
+      const servico = document.getElementById("servico").value;
+      const mensagem = document.getElementById("mensagem").value.trim();
+
+      const texto = `Olá, sou ${nome}.%0A` +
+        `Telefone: ${telefone}.%0A` +
+        `Serviço desejado: ${servico}.%0A` +
+        `Mensagem: ${mensagem || "Gostaria de solicitar um orçamento."}`;
+
+      window.open(`https://wa.me/5543999166905?text=${texto}`, "_blank");
+    }
+  </script>
+</body>
+</html>
